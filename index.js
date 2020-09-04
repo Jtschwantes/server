@@ -80,6 +80,7 @@ const deleteProject = async (req, res) => {
 const app = express()
     // Set Up options
     .use(express.static(path.join(__dirname, 'public')))
+    .use(express.json())
     .set('views', path.join(__dirname, 'views'))
     .set('view engine', 'ejs')
     // Project services
