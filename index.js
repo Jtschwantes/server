@@ -36,10 +36,10 @@ const getProject = async (req, res) => {
 }
 const postProject = async (req, res) => {
     let project = req.body
-    console.log(project)
     try {
         const client = await pool.connect()
         await client.query(`INSERT INTO projects(name, date, summary, description, link, imgLink) VALUES ('${project.name}', '${project.date}', '${project.summary}', '${project.description}', '${project.link}', '${project.imgLink}')`);
+        res.send({status: "success"})
         client.release();
     } catch (err) {
         console.error(err);
@@ -49,7 +49,6 @@ const postProject = async (req, res) => {
 const putProject = async (req, res) => {
     const id = req.params.id;
     let project = req.body;
-    console.log(req.body);
     try {
         const client = await pool.connect()
         await client.query(`DELETE FROM projects WHERE id = ${id}`);
@@ -57,6 +56,7 @@ const putProject = async (req, res) => {
         // const result = await client.query(`SELECT * FROM projects WHERE id = ${id}`);
         // const results = result.rows;
         // res.send(results);
+        res.send({status: "success"})
         client.release();
     } catch (err) {
         console.error(err);
@@ -68,6 +68,7 @@ const deleteProject = async (req, res) => {
     try {
         const client = await pool.connect()
         await client.query(`DELETE FROM projects WHERE id = ${id}`);
+        res.send({status: "success"})
         client.release();
     } catch (err) {
         console.error(err);
