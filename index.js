@@ -27,8 +27,7 @@ const getProject = async (req, res) => {
     try {
         const client = await pool.connect()
         const result = await client.query(`SELECT * FROM projects WHERE id = ${id}`);
-        const results = result.rows;
-        res.send(results);
+        res.send(result);
         client.release();
     } catch (err) {
         console.error(err);
@@ -41,7 +40,6 @@ const postProject = async (req, res) => {
     try {
         const client = await pool.connect()
         await client.query(`INSERT INTO projects(name, date, summary, description, link, imgLink) VALUES ('${project.name}', '${project.date}', '${project.summary}', '${project.description}', '${project.link}', '${project.imgLink}')`);
-        res.send(project);
         client.release();
     } catch (err) {
         console.error(err);
@@ -56,9 +54,9 @@ const putProject = async (req, res) => {
         const client = await pool.connect()
         await client.query(`DELETE FROM projects WHERE id = ${id}`);
         await client.query(`INSERT INTO projects(id, name, date, summary, description, link, imgLink) VALUES (${id}, '${project.name}', '${project.date}', '${project.summary}', '${project.description}', '${project.link}', '${project.imgLink}')`);
-        const result = await client.query(`SELECT * FROM projects WHERE id = ${id}`);
-        const results = result.rows;
-        res.send(results);
+        // const result = await client.query(`SELECT * FROM projects WHERE id = ${id}`);
+        // const results = result.rows;
+        // res.send(results);
         client.release();
     } catch (err) {
         console.error(err);
@@ -69,8 +67,7 @@ const deleteProject = async (req, res) => {
     const id = req.params.id;
     try {
         const client = await pool.connect()
-        const result = await client.query(`DELETE FROM projects WHERE id = ${id}`);
-        res.send(result)
+        await client.query(`DELETE FROM projects WHERE id = ${id}`);
         client.release();
     } catch (err) {
         console.error(err);
