@@ -37,6 +37,7 @@ const getProject = async (req, res) => {
 }
 const postProject = async (req, res) => {
     let project = req.body
+    console.log(project)
     try {
         const client = await pool.connect()
         await client.query(`INSERT INTO projects(name, date, summary, description, link, imgLink) VALUES ('${project.name}', '${project.date}', '${project.summary}', '${project.description}', '${project.link}', '${project.imgLink}')`);
