@@ -38,7 +38,7 @@ const postProject = async (req, res) => {
     let project = req.body
     try {
         const client = await pool.connect()
-        await client.query(`INSERT INTO project(name, date, summary, description, link, imgLink) VALUES ('${project.name}', '${project.date}', '${project.summary}', '${project.description}', '${project.link}', '${project.imgLink}')`);
+        await client.query(`INSERT INTO projects(name, date, summary, description, link, imgLink) VALUES ('${project.name}', '${project.date}', '${project.summary}', '${project.description}', '${project.link}', '${project.imgLink}')`);
         res.send(project);
         client.release();
     } catch (err) {
@@ -52,8 +52,8 @@ const putProject = async (req, res) => {
     console.log(req.body);
     try {
         const client = await pool.connect()
-        await client.query(`DELETE FROM project WHERE id = ${id}`);
-        await client.query(`INSERT INTO project(id, name, date, summary, description, link, imgLink) VALUES ('${id}', '${project.name}', '${project.date}', '${project.summary}', '${project.description}', '${project.link}', '${project.imgLink}')`);
+        await client.query(`DELETE FROM projects WHERE id = ${id}`);
+        await client.query(`INSERT INTO projects(id, name, date, summary, description, link, imgLink) VALUES ('${id}', '${project.name}', '${project.date}', '${project.summary}', '${project.description}', '${project.link}', '${project.imgLink}')`);
         const result = await client.query(`SELECT * FROM projects WHERE id = ${id}`);
         const results = result.rows;
         res.send(results);
@@ -67,7 +67,7 @@ const deleteProject = async (req, res) => {
     const id = req.params.id;
     try {
         const client = await pool.connect()
-        const result = await client.query(`DELETE FROM project WHERE id = ${id}`);
+        const result = await client.query(`DELETE FROM projects WHERE id = ${id}`);
         res.send(result)
         client.release();
     } catch (err) {
