@@ -1,5 +1,5 @@
 const express = require('express')
-const bp = requre('body-parser')
+const bp = require('body-parser')
 const path = require('path')
 const { Pool } = require('pg');
 const pool = new Pool({
