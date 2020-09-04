@@ -8,21 +8,6 @@ const pool = new Pool({
 
 const PORT = process.env.PORT || 5000
 
-// Server
-const app = express()
-    // Set Up options
-    .use(express.static(path.join(__dirname, 'public')))
-    .set('views', path.join(__dirname, 'views'))
-    .set('view engine', 'ejs')
-    // Project services
-    .get('/projects', getProjects)
-    .get('/project/:id', getProject)
-    .post('/project', postProject)
-    .put('/project/:id', putProject)
-    .delete('/project/:id', deleteProject)
-
-app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
-
 /////////////////// Project Services //////////////////////
 const getProjects = async (req, res) => {
     try {
@@ -90,3 +75,18 @@ const deleteProject = async (req, res) => {
         res.send(err);
     }
 }
+
+// Server
+const app = express()
+    // Set Up options
+    .use(express.static(path.join(__dirname, 'public')))
+    .set('views', path.join(__dirname, 'views'))
+    .set('view engine', 'ejs')
+    // Project services
+    .get('/projects', getProjects)
+    .get('/project/:id', getProject)
+    .post('/project', postProject)
+    .put('/project/:id', putProject)
+    .delete('/project/:id', deleteProject)
+
+app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
