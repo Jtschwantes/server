@@ -1,4 +1,5 @@
 const express = require('express')
+const bp = requre('body-parser')
 const path = require('path')
 const { Pool } = require('pg');
 const pool = new Pool({
@@ -80,7 +81,7 @@ const deleteProject = async (req, res) => {
 const app = express()
     // Set Up options
     .use(express.static(path.join(__dirname, 'public')))
-    .use(express.json())
+    .use(bp.json())
     .set('views', path.join(__dirname, 'views'))
     .set('view engine', 'ejs')
     // Project services
