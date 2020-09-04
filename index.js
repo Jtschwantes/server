@@ -84,9 +84,9 @@ const app = express()
     .set('view engine', 'ejs')
     // Project services
     .get('/projects', getProjects)
-    .get('/project/:id', getProject)
-    .post('/project', postProject)
-    .put('/project/:id', putProject)
-    .delete('/project/:id', deleteProject)
+    .get('/projects/:id', getProject)
+    .post('/projects', postProject)
+    .put('/projects/:id', putProject)
+    .delete('/projects/:id', deleteProject)
 
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
