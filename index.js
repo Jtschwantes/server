@@ -27,7 +27,7 @@ const getProject = async (req, res) => {
     try {
         const client = await pool.connect()
         const result = await client.query(`SELECT * FROM projects WHERE id = ${id}`);
-        res.send(result);
+        res.send(result.rows);
         client.release();
     } catch (err) {
         console.error(err);
