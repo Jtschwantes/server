@@ -26,7 +26,7 @@ const postProject = async (req, res) => {
     let project = req.body
     try {
         const client = await res.locals.pool.connect()
-        await client.query(`INSERT INTO projects(account_id, name, date, summary, description, link, imgLink) VALUES ('${project.account_id}', ${project.name}', '${project.date}', '${project.summary}', '${project.description}', '${project.link}', '${project.imgLink}')`);
+        await client.query(`INSERT INTO projects(account_id, name, date, summary, description, link, imgLink) VALUES ('${project.account_id}', '${project.name}', '${project.date}', '${project.summary}', '${project.description}', '${project.link}', '${project.imgLink}')`);
         res.send({status: "success"})
         client.release();
     } catch (err) {
