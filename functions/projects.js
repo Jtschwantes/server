@@ -40,7 +40,7 @@ const putProject = async (req, res) => {
     try {
         const client = await res.locals.pool.connect()
         await client.query(`DELETE FROM projects WHERE id = ${id}`);
-        await client.query(`INSERT INTO projects(id, name, date, summary, description, link, imgLink) VALUES (${id}, '${project.name}', '${project.date}', '${project.summary}', '${project.description}', '${project.link}', '${project.imgLink}')`);
+        await client.query(`INSERT INTO projects(account_id, id, name, date, summary, description, link, imgLink) VALUES ('${project.account_id}', ${id}, '${project.name}', '${project.date}', '${project.summary}', '${project.description}', '${project.link}', '${project.imgLink}')`);
         // const result = await client.query(`SELECT * FROM projects WHERE id = ${id}`);
         // const results = result.rows;
         // res.send(results);
