@@ -31,7 +31,7 @@ CREATE TABLE jobs (
     endDate date,
     description varchar(2000),
     CONSTRAINT fk FOREIGN KEY(account_id) REFERENCES accounts(id));
-CREATE TABLE education (
+CREATE TABLE educations (
     id SERIAL PRIMARY KEY,
     account_id integer NOT NULL,
     school varchar(200) NOT NULL,
@@ -66,9 +66,9 @@ VALUES('1', 'Engineer 6', 'Google', '2008-05-19', '2018-07-23', 'Worked on senio
 INSERT INTO jobs(account_id, title, employer, startDate, description)
 VALUES('1', 'Senior Engineer 7', 'Google', '2019-01-13', 'Worked on senior engineer stuff that was super cool and things like that.');
 -- Education
-INSERT INTO education(account_id, school, type, field, startDate, endDate, description)
+INSERT INTO educations(account_id, school, type, field, startDate, endDate, description)
 VALUES('1', 'SSU', 'Batchlors', 'Mechanical Engineering', '1821-04-06', '1825-04-05', 'Emphasis on calculus and stuff');
-INSERT INTO education(account_id, school, type, field, startDate, description)
+INSERT INTO educations(account_id, school, type, field, startDate, description)
 VALUES('1', 'MIT', 'Masters', 'Particle Physics', '1825-04-06', 'Emphasis on thermodynamics');
 -- Skills
 INSERT INTO skills(account_id, description) VALUES('1','Node');
