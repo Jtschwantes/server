@@ -40,7 +40,7 @@ const putEducation = async (req, res) => {
     try {
         const client = await res.locals.pool.connect()
         await client.query(`DELETE FROM educations WHERE id = ${id}`);
-        await client.query(`INSERT INTO educations(account_id, school, type, field, startDate, endDate, description) VALUES ('${education.account_id}', '${education.school}', '${education.type}', '${education.field}', '${education.startDate}', '${education.endDate}', '${education.description}')`);
+        await client.query(`INSERT INTO educations(id, account_id, school, type, field, startDate, endDate, description) VALUES ('${id}', '${education.account_id}', '${education.school}', '${education.type}', '${education.field}', '${education.startDate}', '${education.endDate}', '${education.description}')`);
         // const result = await client.query(`SELECT * FROM educations WHERE id = ${id}`);
         // const results = result.rows;
         // res.send(results);
