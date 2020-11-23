@@ -1,7 +1,11 @@
 -- ---------------------------------------------------------------------
 -- Delete tables, might throw errors if they don't exist but that's okay
 -- ---------------------------------------------------------------------
-DROP TABLE projects, jobs, education, accounts, skills;
+DROP TABLE projects;
+DROP TABLE jobs;
+DROP TABLE education;
+DROP TABLE skills;
+DROP TABLE accounts;
 -- ---------------------------------------------------------------------
 -- Create tables, we know they don't exist
 -- ---------------------------------------------------------------------
@@ -10,7 +14,7 @@ CREATE TABLE accounts (
     page varchar(1000) NOT NULL);
 CREATE TABLE projects (
     id SERIAL PRIMARY KEY,
-    account_id varchar(6) NOT NULL,
+    account_id integer NOT NULL,
     name varchar(1000) NOT NULL,
     date date NOT NULL,
     summary varchar(2000) NOT NULL,
@@ -20,7 +24,7 @@ CREATE TABLE projects (
     CONSTRAINT fk FOREIGN KEY(account_id) REFERENCES accounts(id));
 CREATE TABLE jobs (
     id SERIAL PRIMARY KEY,
-    account_id varchar(6) NOT NULL,
+    account_id integer NOT NULL,
     title varchar(1000) NOT NULL,
     employer varchar(200) NOT NULL,
     startDate date NOT NULL,
@@ -29,7 +33,7 @@ CREATE TABLE jobs (
     CONSTRAINT fk FOREIGN KEY(account_id) REFERENCES accounts(id));
 CREATE TABLE education (
     id SERIAL PRIMARY KEY,
-    account_id varchar(6) NOT NULL,
+    account_id integer NOT NULL,
     school varchar(200) NOT NULL,
     type varchar(200) NOT NULL,
     field varchar(200) NOT NULL,
@@ -39,7 +43,7 @@ CREATE TABLE education (
     CONSTRAINT fk FOREIGN KEY(account_id) REFERENCES accounts(id));
 CREATE TABLE skills (
     id SERIAL PRIMARY KEY,
-    account_id varchar(6) NOT NULL,
+    account_id integer NOT NULL,
     description VARCHAR(1000) NOT NULL,
     CONSTRAINT fk FOREIGN KEY(account_id) REFERENCES accounts(id));
 -- ---------------------------------------------------------------------
@@ -63,8 +67,8 @@ INSERT INTO jobs(account_id, title, employer, startDate, description)
 VALUES('1', 'Senior Engineer 7', 'Google', '2019-01-13', 'Worked on senior engineer stuff that was super cool and things like that.');
 -- Education
 INSERT INTO education(account_id, school, type, field, startDate, endDate, description)
-VALUES('1', 'SSU', 'Batchlors', 'Mechanical Engineering', '1821-04-06', 'Emphasis on calculus and stuff');
-INSERT INTO education(account_id, school, type, field, startDate, endDate, description)
+VALUES('1', 'SSU', 'Batchlors', 'Mechanical Engineering', '1821-04-06', '1825-04-05', 'Emphasis on calculus and stuff');
+INSERT INTO education(account_id, school, type, field, startDate, description)
 VALUES('1', 'MIT', 'Masters', 'Particle Physics', '1825-04-06', 'Emphasis on thermodynamics');
 -- Skills
 INSERT INTO skills(account_id, description) VALUES('1','Node');
