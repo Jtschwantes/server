@@ -1,12 +1,18 @@
-INSERT INTO projects(
-    name, 
-    date, 
-    summary, 
-    description
-) 
-VALUES(
-    'Example Project', 
-    '09-03-2020', 
-    'Example project for testing purposes', 
-    'Blah blah blah blah. blahllahlalhfajkdhfalskdhflkasjdlkjasdhkjahsdgkjadkgkljadglkjadgkjadskghalksdjhgnlkadfsfhgkjadsglkhasdkgnhsdlfkajglakjdsglka'
+INSERT INTO projects (
+    id,
+    name,
+    date,
+    summary,
+    description,
+    link,
+    imgLink
+) VALUES (
+    '0',
+    'Circle Test',
+    '2020-01-01',
+    'Example project for circle test,
+    this should be deleted by the end.',
+    'asdhfkljashdfkjhasdklfhkalsdhfkjhasdkfjhaskldjhfkjasdhfkahsdfkjhasdlkfhkaljsdhfkashdfjkhasdlkfjhaklsdjhfkjashdfkjhasdkljfhlaksjdhfkjashdfkjhasdkjfhaksljdhflkjasdhfkljashdfkjhasdkjlfhaskljdf',
+    'example link',
+    'example image link'
 );
