@@ -12,7 +12,6 @@ const pool = new Pool({
     ssl: { rejectUnauthorized: false }
 });
 
-
 const PORT = process.env.PORT || 5000
 
 // Server
