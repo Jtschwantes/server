@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 5000
 
 const verifyToken = async(req, res) => {
     const token = req.body.token
-    res.send(res.locals.verify(token))
+    res.send({ status: "Success", answer: res.locals.verify(token)})
 }
 
 // Server
