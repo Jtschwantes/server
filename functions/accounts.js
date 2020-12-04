@@ -61,7 +61,7 @@ const putAccount = async (req, res) => {
     let account = req.body;
     let token = req.body.token;
 
-    if(await res.locals.verify(id, token)) {
+    if(await !res.locals.verify(id, token)) {
         res.status(403).send({status: "Forbidden"})
         return
     }
