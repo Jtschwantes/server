@@ -38,6 +38,7 @@ const app = express()
                 audience: process.env.CLIENT_ID
             })
             const user = ticket.getPayload()['sub'];
+            console.log("USERID SHOULD BE HERE:", user)
             return user
         }
         next()
