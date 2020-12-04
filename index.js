@@ -8,6 +8,8 @@ const skills = require('./functions/skills')
 const accounts = require('./functions/accounts')
 const cors = require('cors')
 const { Pool } = require('pg')
+const {OAuth2Client} = require('google-auth-library')
+
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL || 'postgres://yfyzdciabhwwbq:d3a9d00ce2cd06349f5ac0ce0139b6467aee5d3994881f85faa0ad5d35c7abac@ec2-52-72-34-184.compute-1.amazonaws.com:5432/daq4b6l917ll6r',
     ssl: { rejectUnauthorized: false }
@@ -23,6 +25,7 @@ const app = express()
     .use(cors())
     .use((req, res, next) => {
         res.locals.pool = pool
+        res.locals.auth = new OAuth2Client(process.env.CLIENT_ID);
         next()
     })
     .set('views', path.join(__dirname, 'views'))
