@@ -59,8 +59,9 @@ const postAccount = async (req, res) => {
 const putAccount = async (req, res) => {
     const id = req.params.id;
     let account = req.body;
+    let token = req.body.token;
 
-    if(await res.locals.verify()) {
+    if(await res.locals.verify(id, token)) {
         res.status(403).render()
         return
     }

@@ -17,10 +17,6 @@ const verifyToken = async(req, res) => {
     res.send({ status: "Success", answer: await res.locals.verify(token)})
 }
 
-const verify = (id, token) => {
-
-}
-
 // Server
 const app = express()
     // Set Up options
