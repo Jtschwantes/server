@@ -75,6 +75,6 @@ const app = express()
     .put('/skills/:id', skills.putSkill)
     .delete('/skills/:id', skills.deleteSkill)
     // Test Token
-    .get('/verify', verifyToken)
+    .post('/verify', verifyToken)
 
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
