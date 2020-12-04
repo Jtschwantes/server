@@ -33,7 +33,7 @@ const app = express()
         res.locals.authent = new OAuth2Client(process.env.CLIENT_ID)
         res.locals.verify = async(token) => {
             console.log("Starting Verify Function")
-            const ticket = await authent.verifyIdToken({
+            const ticket = await res.locals.authent.verifyIdToken({
                 idToken: token,
                 audience: process.env.CLIENT_ID
             })
