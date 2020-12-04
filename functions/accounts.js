@@ -59,6 +59,12 @@ const postAccount = async (req, res) => {
 const putAccount = async (req, res) => {
     const id = req.params.id;
     let account = req.body;
+
+    if(await res.locals.verify()) {
+        res.status(403).render()
+        return
+    }
+    
     try {
         const client = await res.locals.pool.connect()
         await client.query(`DELETE FROM accounts WHERE id = ${id}`);

@@ -10,16 +10,15 @@ const cors = require('cors')
 const { Pool } = require('pg')
 const {OAuth2Client} = require('google-auth-library')
 
-const pool = new Pool({
-    connectionString: process.env.DATABASE_URL || 'postgres://yfyzdciabhwwbq:d3a9d00ce2cd06349f5ac0ce0139b6467aee5d3994881f85faa0ad5d35c7abac@ec2-52-72-34-184.compute-1.amazonaws.com:5432/daq4b6l917ll6r',
-    ssl: { rejectUnauthorized: false }
-});
-
 const PORT = process.env.PORT || 5000
 
 const verifyToken = async(req, res) => {
     const token = req.body.token
     res.send({ status: "Success", answer: await res.locals.verify(token)})
+}
+
+const verify = (id, token) => {
+
 }
 
 // Server
@@ -29,17 +28,35 @@ const app = express()
     .use(bp.json())
     .use(cors())
     .use((req, res, next) => {
-        res.locals.pool = pool
+        res.locals.pool = new Pool({
+            connectionString: process.env.DATABASE_URL || 'postgres://yfyzdciabhwwbq:d3a9d00ce2cd06349f5ac0ce0139b6467aee5d3994881f85faa0ad5d35c7abac@ec2-52-72-34-184.compute-1.amazonaws.com:5432/daq4b6l917ll6r',
+            ssl: { rejectUnauthorized: false }
+        });
         res.locals.authent = new OAuth2Client(process.env.CLIENT_ID)
-        res.locals.verify = async(token) => {
-            console.log("Starting Verify Function")
-            const ticket = await res.locals.authent.verifyIdToken({
-                idToken: token,
-                audience: process.env.CLIENT_ID
-            })
-            const user = ticket.getPayload()['sub'];
-            console.log("USERID SHOULD BE HERE:", user)
-            return user
+        res.locals.verify = async(id, token) => {
+            let gid;
+            let user;
+            try {
+                const client = await res.locals.pool.connect()
+                const result = await client.query(`SELECT * FROM accounts WHERE id = ${id}`)
+                gid = result.rows[0].gid
+                client.release();
+            } catch (err) {
+                console.error(err);
+                throw err;
+            }
+            try {
+                const ticket = await res.locals.authent.verifyIdToken({
+                    idToken: token,
+                    audience: process.env.CLIENT_ID,
+                })
+                user = ticket.getPayload()['sub'];
+            } catch (err) {
+                console.error(err);
+                throw err;
+            }
+            console.log(`Account ID: ${gid}, Google ID: ${user}, Evaluates to ${(user == gid)}`)
+            return (user == gid)
         }
         next()
     })
