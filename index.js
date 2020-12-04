@@ -32,11 +32,14 @@ const app = express()
         res.locals.pool = pool
         res.locals.auth = new OAuth2Client(process.env.CLIENT_ID)
         res.locals.verify = async(token) => {
+            console.log("Starting Verify Function")
             const ticket = await auth.verifyIdToken({
                 idToken: token,
                 audience: process.env.CLIENT_ID
             })
-            const userid = ticket.getPayload();
+            console.log("TICKET: ", ticket)
+            const payload = ticket.getPayload();
+            console.log("PAYLOAD: ", payload)
             return userid
         }
         next()
