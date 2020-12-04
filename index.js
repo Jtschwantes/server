@@ -38,8 +38,11 @@ const app = express()
             let user;
             try {
                 const client = await res.locals.pool.connect()
+                console.log('1')
                 const result = await client.query(`SELECT * FROM accounts WHERE id = ${id}`)
+                console.log('2')
                 gid = result.rows[0].gid
+                console.log('3')
                 client.release();
             } catch (err) {
                 console.error(err);
