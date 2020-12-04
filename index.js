@@ -28,6 +28,7 @@ const app = express()
     .set('views', path.join(__dirname, 'views'))
     .set('view engine', 'ejs')
     // Account services
+    .get('/accountData/:id', accounts.getAccountData)
     .get('/accounts', accounts.getAccounts)
     .get('/accounts/:id', accounts.getAccount)
     .post('/accounts', accounts.postAccount)

@@ -22,6 +22,28 @@ const getAccount = async (req, res) => {
         throw err;
     }
 }
+const getAccountData = async (req, res) => {
+    const id = req.params.id
+    try {
+        const client = await res.locals.pool.connect()
+        const account = await client.query(`SELECT * FROM accounts WHERE id = ${id}`);
+        const educations = await client.query(`SELECT * FROM educations WHERE account_id = ${id}`);
+        const jobs = await client.query(`SELECT * FROM jobs WHERE account_id = ${id}`);
+        const skills = await client.query(`SELECT * FROM skills WHERE account_id = ${id}`);
+        const projects = await client.query(`SELECT * FROM projects WHERE account_id = ${id}`);
+        res.send({
+            account: account[0],
+            educations: educations,
+            jobs: jobs,
+            skills: skills,
+            projects: projects
+        });
+        client.release();
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
+}
 const postAccount = async (req, res) => {
     let account = req.body
     try {
@@ -65,6 +87,7 @@ const deleteAccount = async (req, res) => {
 }
 
 exports.getAccount = getAccount
+exports.getAccountData = getAccountData
 exports.getAccounts = getAccounts
 exports.putAccount = putAccount
 exports.postAccount = postAccount
