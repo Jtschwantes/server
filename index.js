@@ -8,7 +8,7 @@ const skills = require('./functions/skills')
 const accounts = require('./functions/accounts')
 const cors = require('cors')
 const { Pool } = require('pg')
-const {OAuth2Client} = require('google-auth-library')
+const {OAuth2Client, auth} = require('google-auth-library')
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL || 'postgres://yfyzdciabhwwbq:d3a9d00ce2cd06349f5ac0ce0139b6467aee5d3994881f85faa0ad5d35c7abac@ec2-52-72-34-184.compute-1.amazonaws.com:5432/daq4b6l917ll6r',
@@ -16,6 +16,11 @@ const pool = new Pool({
 });
 
 const PORT = process.env.PORT || 5000
+
+const verifyToken = async(req, res) => {
+    const token = req.body.token
+    res.send(req.locals.verify(token))
+}
 
 // Server
 const app = express()
@@ -25,7 +30,15 @@ const app = express()
     .use(cors())
     .use((req, res, next) => {
         res.locals.pool = pool
-        res.locals.auth = new OAuth2Client(process.env.CLIENT_ID);
+        res.locals.auth = new OAuth2Client(process.env.CLIENT_ID)
+        res.locals.verify = async(token) => {
+            const ticket = await auth.verifyIdToken({
+                idToken: token,
+                audience: process.env.CLIENT_ID
+            })
+            const userid = ticken.getPayload()['sub'];
+            return userid
+        }
         next()
     })
     .set('views', path.join(__dirname, 'views'))
@@ -61,5 +74,7 @@ const app = express()
     .post('/skills', skills.postSkill)
     .put('/skills/:id', skills.putSkill)
     .delete('/skills/:id', skills.deleteSkill)
+    // Test Token
+    .get('/verify', verifyToken)
 
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
