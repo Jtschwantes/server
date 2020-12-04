@@ -8,13 +8,14 @@ const skills = require('./functions/skills')
 const accounts = require('./functions/accounts')
 const cors = require('cors')
 const { Pool } = require('pg')
-const {OAuth2Client} = require('google-auth-library')
+const { OAuth2Client } = require('google-auth-library')
 
 const PORT = process.env.PORT || 5000
 
 const verifyToken = async(req, res) => {
     const token = req.body.token
-    res.send({ status: "Success", answer: await res.locals.verify(token)})
+    const id = req.body.account_id
+    res.send({ status: "Success", isOwner: await res.locals.verify(id, token)})
 }
 
 // Server
