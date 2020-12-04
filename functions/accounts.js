@@ -62,7 +62,7 @@ const putAccount = async (req, res) => {
     let token = req.body.token;
 
     if(await res.locals.verify(id, token)) {
-        res.status(403).render()
+        res.status(403).send({status: "Forbidden"})
         return
     }
     
@@ -70,9 +70,6 @@ const putAccount = async (req, res) => {
         const client = await res.locals.pool.connect()
         await client.query(`DELETE FROM accounts WHERE id = ${id}`);
         await client.query(`INSERT INTO accounts(id, gid, first, last, imgLink, phone, email) VALUES (${id}, '${account.gid}', '${account.first}', '${account.last}', '${account.imgLink}', '${account.phone}', '${account.email}')`);
-        // const result = await client.query(`SELECT * FROM accounts WHERE id = ${id}`);
-        // const results = result.rows;
-        // res.send(results);
         res.send({status: "success"})
         client.release();
     } catch (err) {
