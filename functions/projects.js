@@ -24,6 +24,12 @@ const getProject = async (req, res) => {
 }
 const postProject = async (req, res) => {
     let project = req.body
+    let token = req.body.token;
+    let aid = req.body.account_id;
+    if(await !res.locals.verify(aid, token)) {
+        res.status(403).send({status: "Forbidden"})
+        return
+    }
     try {
         const client = await res.locals.pool.connect()
         await client.query(`INSERT INTO projects(account_id, name, date, summary, description, link, imgLink) VALUES ('${project.account_id}', '${project.name}', '${project.date}', '${project.summary}', '${project.description}', '${project.link}', '${project.imgLink}')`);
@@ -37,6 +43,12 @@ const postProject = async (req, res) => {
 const putProject = async (req, res) => {
     const id = req.params.id;
     let project = req.body;
+    let token = req.body.token;
+    let aid = req.body.account_id;
+    if(await !res.locals.verify(aid, token)) {
+        res.status(403).send({status: "Forbidden"})
+        return
+    }
     try {
         const client = await res.locals.pool.connect()
         await client.query(`DELETE FROM projects WHERE id = ${id}`);
@@ -53,6 +65,12 @@ const putProject = async (req, res) => {
 }
 const deleteProject = async (req, res) => {
     const id = req.params.id;
+    let token = req.body.token;
+    let aid = req.body.account_id;
+    if(await !res.locals.verify(aid, token)) {
+        res.status(403).send({status: "Forbidden"})
+        return
+    }
     try {
         const client = await res.locals.pool.connect()
         await client.query(`DELETE FROM projects WHERE id = ${id}`);

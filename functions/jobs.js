@@ -24,6 +24,13 @@ const getJob = async (req, res) => {
 }
 const postJob = async (req, res) => {
     let job = req.body
+
+    let token = req.body.token;
+    let aid = req.body.account_id;
+    if(await !res.locals.verify(aid, token)) {
+        res.status(403).send({status: "Forbidden"})
+        return
+    }
     try {
         const client = await res.locals.pool.connect()
         await client.query(`INSERT INTO jobs(account_id, title, employer, startDate, endDate, description) VALUES ('${job.account_id}', '${job.title}', '${job.employer}', '${job.startDate}', '${job.endDate}', '${job.description}')`);
@@ -37,6 +44,13 @@ const postJob = async (req, res) => {
 const putJob = async (req, res) => {
     const id = req.params.id;
     let job = req.body;
+
+    let token = req.body.token;
+    let aid = req.body.account_id;
+    if(await !res.locals.verify(aid, token)) {
+        res.status(403).send({status: "Forbidden"})
+        return
+    }
     try {
         const client = await res.locals.pool.connect()
         await client.query(`DELETE FROM jobs WHERE id = ${id}`);
@@ -53,6 +67,13 @@ const putJob = async (req, res) => {
 }
 const deleteJob = async (req, res) => {
     const id = req.params.id;
+
+    let token = req.body.token;
+    let aid = req.body.account_id;
+    if(await !res.locals.verify(aid, token)) {
+        res.status(403).send({status: "Forbidden"})
+        return
+    }
     try {
         const client = await res.locals.pool.connect()
         await client.query(`DELETE FROM jobs WHERE id = ${id}`);

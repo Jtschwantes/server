@@ -24,6 +24,12 @@ const getSkill = async (req, res) => {
 }
 const postSkill = async (req, res) => {
     let skill = req.body
+    let token = req.body.token;
+    let aid = req.body.account_id;
+    if(await !res.locals.verify(aid, token)) {
+        res.status(403).send({status: "Forbidden"})
+        return
+    }
     try {
         const client = await res.locals.pool.connect()
         await client.query(`INSERT INTO skills(account_id, description) VALUES ('${skill.account_id}', '${skill.description}')`);
@@ -37,6 +43,12 @@ const postSkill = async (req, res) => {
 const putSkill = async (req, res) => {
     const id = req.params.id;
     let skill = req.body;
+    let token = req.body.token;
+    let aid = req.body.account_id;
+    if(await !res.locals.verify(aid, token)) {
+        res.status(403).send({status: "Forbidden"})
+        return
+    }
     try {
         const client = await res.locals.pool.connect()
         await client.query(`DELETE FROM skills WHERE id = ${id}`);
@@ -53,6 +65,12 @@ const putSkill = async (req, res) => {
 }
 const deleteSkill = async (req, res) => {
     const id = req.params.id;
+    let token = req.body.token;
+    let aid = req.body.account_id;
+    if(await !res.locals.verify(aid, token)) {
+        res.status(403).send({status: "Forbidden"})
+        return
+    }
     try {
         const client = await res.locals.pool.connect()
         await client.query(`DELETE FROM skills WHERE id = ${id}`);

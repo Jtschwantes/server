@@ -24,6 +24,13 @@ const getEducation = async (req, res) => {
 }
 const postEducation = async (req, res) => {
     let education = req.body
+
+    let token = req.body.token;
+    let aid = req.body.account_id;
+    if(await !res.locals.verify(aid, token)) {
+        res.status(403).send({status: "Forbidden"})
+        return
+    }
     try {
         const client = await res.locals.pool.connect()
         await client.query(`INSERT INTO educations(account_id, school, type, field, startDate, endDate, description) VALUES ('${education.account_id}', '${education.school}', '${education.type}', '${education.field}', '${education.startDate}', '${education.endDate}', '${education.description}')`);
@@ -37,6 +44,14 @@ const postEducation = async (req, res) => {
 const putEducation = async (req, res) => {
     const id = req.params.id;
     let education = req.body;
+    
+    let token = req.body.token;
+    let aid = req.body.account_id;
+    if(await !res.locals.verify(aid, token)) {
+        res.status(403).send({status: "Forbidden"})
+        return
+    }
+    
     try {
         const client = await res.locals.pool.connect()
         await client.query(`DELETE FROM educations WHERE id = ${id}`);
@@ -53,6 +68,14 @@ const putEducation = async (req, res) => {
 }
 const deleteEducation = async (req, res) => {
     const id = req.params.id;
+
+    let token = req.body.token;
+    let aid = req.body.account_id;
+    if(await !res.locals.verify(aid, token)) {
+        res.status(403).send({status: "Forbidden"})
+        return
+    }
+    
     try {
         const client = await res.locals.pool.connect()
         await client.query(`DELETE FROM educations WHERE id = ${id}`);

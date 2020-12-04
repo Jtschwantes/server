@@ -46,6 +46,13 @@ const getAccountData = async (req, res) => {
 }
 const postAccount = async (req, res) => {
     let account = req.body
+
+    let token = req.body.token;
+    let aid = req.body.account_id;
+    if(await !res.locals.verify(aid, token)) {
+        res.status(403).send({status: "Forbidden"})
+        return
+    }
     try {
         const client = await res.locals.pool.connect()
         await client.query(`INSERT INTO accounts(gid, first, last, imgLink, phone, email) VALUES ('${account.gid}', '${account.first}', '${account.last}', '${account.imgLink}', '${account.phone}', '${account.email}')`);
@@ -59,9 +66,10 @@ const postAccount = async (req, res) => {
 const putAccount = async (req, res) => {
     const id = req.params.id;
     let account = req.body;
+    
     let token = req.body.token;
-
-    if(await !res.locals.verify(id, token)) {
+    let aid = req.body.account_id;
+    if(await !res.locals.verify(aid, token)) {
         res.status(403).send({status: "Forbidden"})
         return
     }
@@ -79,6 +87,13 @@ const putAccount = async (req, res) => {
 }
 const deleteAccount = async (req, res) => {
     const id = req.params.id;
+    
+    let token = req.body.token;
+    let aid = req.body.account_id;
+    if(await !res.locals.verify(aid, token)) {
+        res.status(403).send({status: "Forbidden"})
+        return
+    }
     try {
         const client = await res.locals.pool.connect()
         await client.query(`DELETE FROM accounts WHERE id = ${id}`);
