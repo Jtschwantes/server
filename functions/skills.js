@@ -15,7 +15,7 @@ const getSkill = async (req, res) => {
     try {
         const client = await res.locals.pool.connect()
         const result = await client.query(`SELECT * FROM skills WHERE id = ${id}`);
-        res.send(result.rows);
+        res.send(result.rows[0]);
         client.release();
     } catch (err) {
         console.error(err);
