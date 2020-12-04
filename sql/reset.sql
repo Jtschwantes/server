@@ -3,7 +3,7 @@
 -- ---------------------------------------------------------------------
 DROP TABLE projects;
 DROP TABLE jobs;
-DROP TABLE education;
+DROP TABLE educations;
 DROP TABLE skills;
 DROP TABLE accounts;
 -- ---------------------------------------------------------------------
@@ -11,7 +11,12 @@ DROP TABLE accounts;
 -- ---------------------------------------------------------------------
 CREATE TABLE accounts (
     id SERIAL PRIMARY KEY,
-    page varchar(1000) NOT NULL);
+    gid varchar(100) NOT NULL,
+    first varchar(256) NOT NULL,
+    last varchar(256) NOT NULL,
+    imgLink varchar(1000),
+    phone varchar(20),
+    email varchar(100) NOT NULL);
 CREATE TABLE projects (
     id SERIAL PRIMARY KEY,
     account_id integer NOT NULL,
@@ -50,8 +55,7 @@ CREATE TABLE skills (
 -- Insert rows, we need some dummy data
 -- ---------------------------------------------------------------------
 -- Accounts
-INSERT INTO accounts(page) VALUES('test');
-INSERT INTO accounts(page) VALUES('another');
+INSERT INTO accounts(gid, first, last, imgLink, phone, email) VALUES('testesttest', 'Jake', 'Schwantes', 'TestLink', '918-605-3249', 'jtchwantes@gmail.com');
 -- Projects
 INSERT INTO projects(account_id, name, date, summary) VALUES('1', 'Example Project', '2001-09-28', 'This project was dope');
 INSERT INTO projects(account_id, name, date, summary, description, link, imgLink) 
