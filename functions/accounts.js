@@ -32,11 +32,11 @@ const getAccountData = async (req, res) => {
         const skills = await client.query(`SELECT * FROM skills WHERE account_id = ${id}`);
         const projects = await client.query(`SELECT * FROM projects WHERE account_id = ${id}`);
         res.send({
-            account: account[0],
-            educations: educations,
-            jobs: jobs,
-            skills: skills,
-            projects: projects
+            account: account.rows[0],
+            educations: educations.rows,
+            jobs: jobs.rows,
+            skills: skills.rows,
+            projects: projects.rows
         });
         client.release();
     } catch (err) {
