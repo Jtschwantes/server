@@ -36,7 +36,7 @@ const app = express()
                 idToken: token,
                 audience: process.env.CLIENT_ID
             })
-            const userid = ticket.getPayload()['sub'];
+            const userid = ticket.getPayload();
             return userid
         }
         next()
