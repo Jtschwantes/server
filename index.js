@@ -31,6 +31,7 @@ const app = express()
         });
         res.locals.authent = new OAuth2Client(process.env.CLIENT_ID)
         res.locals.verify = async(id, token) => {
+            if(!id || !token) return false
             let gid;
             let user;
             try {
