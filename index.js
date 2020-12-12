@@ -39,7 +39,7 @@ const whoIs = async(req, res) => {
         console.error(err);
         throw err;
     }
-    res.send({status: success, account_id: id})
+    res.send({status: "success", account_id: id})
 }
 
 // Server
