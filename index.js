@@ -19,6 +19,10 @@ const verifyToken = async(req, res) => {
 }
 
 const whoIs = async(req, res) => {
+    if(!req.body.token) {
+        res.send({ status: 400 })
+        return
+    }
     const token = req.body.token
     try {
         const ticket = await res.locals.authent.verifyIdToken({
@@ -26,11 +30,7 @@ const whoIs = async(req, res) => {
             audience: process.env.CLIENT_ID,
         })
         user = ticket.getPayload()['sub'];
-    } catch (err) {
-        console.error(err);
-        throw err;
-    }
-    try {
+
         const client = await res.locals.pool.connect()
         const result = await client.query(`SELECT * FROM accounts WHERE gid = ${user}`)
         id = result.rows[0].id
