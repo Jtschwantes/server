@@ -32,7 +32,7 @@ const whoIs = async(req, res) => {
         user = ticket.getPayload()['sub'];
 
         const client = await res.locals.pool.connect()
-        const result = await client.query(`SELECT * FROM accounts WHERE gid = ${user}`)
+        const result = await client.query(`SELECT * FROM accounts WHERE gid = '${user}'`)
         id = result.rows[0].id
         client.release();
     } catch (err) {
