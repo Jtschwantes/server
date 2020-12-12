@@ -76,8 +76,7 @@ const putAccount = async (req, res) => {
     
     try {
         const client = await res.locals.pool.connect()
-        await client.query(`DELETE FROM accounts WHERE id = ${id}`);
-        await client.query(`INSERT INTO accounts(id, gid, first, last, imgLink, phone, email) VALUES (${id}, '${account.gid}', '${account.first}', '${account.last}', '${account.imgLink}', '${account.phone}', '${account.email}')`);
+        await client.query(`UPDATE accounts SET first = '${account.first}', last = '${account.last}', imgLink = '${account.imgLink}', phone = '${account.phone}', email = '${account.email}' WHERE id = ${id}`);
         res.send({status: "success"})
         client.release();
     } catch (err) {

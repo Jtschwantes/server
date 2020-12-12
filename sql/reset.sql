@@ -16,7 +16,7 @@ CREATE TABLE accounts (
     last varchar(256) NOT NULL,
     imgLink varchar(1000),
     phone varchar(20),
-    email varchar(100) NOT NULL);
+    email varchar(100));
 CREATE TABLE projects (
     id SERIAL PRIMARY KEY,
     account_id integer NOT NULL,
