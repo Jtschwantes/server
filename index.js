@@ -18,6 +18,30 @@ const verifyToken = async(req, res) => {
     res.send({ status: "Success", isOwner: await res.locals.verify(id, token)})
 }
 
+const whoIs = async(req, res) => {
+    const token = req.body.token
+    try {
+        const ticket = await res.locals.authent.verifyIdToken({
+            idToken: token,
+            audience: process.env.CLIENT_ID,
+        })
+        user = ticket.getPayload()['sub'];
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
+    try {
+        const client = await res.locals.pool.connect()
+        const result = await client.query(`SELECT * FROM accounts WHERE gid = ${user}`)
+        id = result.rows[0].id
+        client.release();
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
+    res.send({status: success, account_id: id})
+}
+
 // Server
 const app = express()
     // Set Up options
@@ -93,5 +117,6 @@ const app = express()
     .delete('/skills/:id', skills.deleteSkill)
     // Test Token
     .post('/verify', verifyToken)
+    .post('/who', whoIs)
 
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
