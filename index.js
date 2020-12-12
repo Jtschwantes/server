@@ -33,7 +33,7 @@ const whoIs = async(req, res) => {
 
         const client = await res.locals.pool.connect()
         const result = await client.query(`SELECT * FROM accounts WHERE gid = '${user}'`)
-        if(result.rows[0].id) id = result.rows[0].id
+        if(result.rows[0]?.id) id = result.rows[0].id
         else id = null
         client.release();
     } catch (err) {
