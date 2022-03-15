@@ -119,5 +119,9 @@ const app = express()
     // Test Token
     .post('/verify', verifyToken)
     .post('/who', whoIs)
+    // Random
+    .get('/yeet', async (req, res) => {
+      res.send({status: "success", data: 'yeetle'})
+  })
 
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
